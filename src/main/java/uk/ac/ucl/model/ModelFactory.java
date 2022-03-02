@@ -7,7 +7,7 @@ import java.io.IOException;
 // Calling the static method getModel (i.e., ModelFactory.getModel()) returns
 // an initialised Model object. This version limits the program to one model object,
 // which is returned whenever getModel is called.
-// The factory also illustrates how a data file name can be passed to the model.
+// The factory also illustrates how a data file can be passed to the model.
 
 public class ModelFactory
 {
@@ -18,7 +18,9 @@ public class ModelFactory
     if (model == null)
     {
       model = new Model();
-      // Note where the .csv file is in the data directory, and the pathname to locate it.
+      // Note where the data file is stored in the data directory,
+      // and the pathname to locate it. The data here is just some example data,
+      // you replace it with your data file(s)
       model.readFile(new File("./data/patients.csv"));
     }
     return model;

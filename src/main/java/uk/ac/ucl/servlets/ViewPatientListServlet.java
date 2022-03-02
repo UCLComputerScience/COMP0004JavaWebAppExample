@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-// The servlet invoked to display a list of patients.
+// The servlet invoked to display a list of patients. Note that this data is just example data,
+// you replace it with your data.
 // The url http://localhost:8080/patientList.html is mapped to calling doGet on the servlet object.
 // The servlet object is created automatically, you just provide the class.
 @WebServlet("/patientList.html")

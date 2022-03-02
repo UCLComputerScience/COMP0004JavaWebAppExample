@@ -6,8 +6,7 @@ import java.util.List;
 public class Model
 {
   // The example code in this class should be replaced by your Model class code.
-  // The data should be stored in a DataFrame.
-  // private DataFrame frame = ...
+  // The data should be stored in a suitable data structure.
 
   public List<String> getPatientNames()
   {
@@ -16,11 +15,11 @@ public class Model
 
   public void readFile(File file)
   {
-    // Read a patient .csv data file and create the DataFrame.
+    // Read a data file and store the data in your data structure.
   }
 
   // This also returns dummy data. The real version should use the keyword parameter to search
-  // the patient data and return a list of matching items.
+  // the data and return a list of matching items.
   public List<String> searchFor(String keyword)
   {
     return List.of("Search keyword is: "+ keyword, "result1", "result2", "result3");
