@@ -19,9 +19,9 @@ public class ModelFactory
     {
       model = new Model();
       // Note where the data file is stored in the data directory,
-      // and the pathname to locate it. The data here is just some example data,
-      // you replace it with your data file(s)
-      model.readFile(new File("./data/patients.csv"));
+      // and the pathname to locate it.
+      // The data should be read the file once, not every time the model is accessed!
+      model.readFile("data/patients100.csv");
     }
     return model;
   }
