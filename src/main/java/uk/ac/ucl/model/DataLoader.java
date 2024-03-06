@@ -41,7 +41,7 @@ public class DataLoader {
     private void processLines(CSVParser csvParser){
         for (CSVRecord record : csvParser){
             for (String headerName: headerNames){
-                String value = record.get(headerName)
+                String value = record.get(headerName);
                 patientData.addValue(headerName, record.get(headerName));
             }
         }
