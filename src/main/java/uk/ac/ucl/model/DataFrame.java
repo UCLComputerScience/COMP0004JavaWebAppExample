@@ -40,6 +40,18 @@ public class DataFrame {
         targetColumn.addRowValue(value);
     }
 
+    public ArrayList<String> searchKeyword(String keyword){
+        ArrayList<String> matchingValues = new ArrayList<>();
+        for(Column column: columnsCollection.values()){
+            matchingValues.addAll(column.searchRows(keyword));
+        }
+
+        if (matchingValues.size() == 0){
+            matchingValues.add("404 Keyword Not Found");
+        }
+        return matchingValues;
+    }
+
 
 }
 

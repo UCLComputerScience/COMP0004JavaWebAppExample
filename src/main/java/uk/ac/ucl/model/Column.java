@@ -28,4 +28,11 @@ public class Column {
     public void addRowValue(String newValue){
         rows.add(newValue);
     }
+    public ArrayList<String> searchRows(String keywords){
+        ArrayList<String> matchingValues = new ArrayList<>();
+        for (String value: rows){
+            if (value.contains(keywords)) {matchingValues.add(value);}
+        }
+        return matchingValues;
+    }
 }

@@ -11,11 +11,16 @@ import java.util.List;
 
 public class DataLoader {
     DataFrame patientData = new DataFrame();
-    final static String PATIENT_DATA_PATH = "data/patient100.csv";
+    final String PATIENT_DATA_PATH;
     List<String> headerNames;
 
-    public void loadPatient(){
+    public DataLoader(String pathName){
+        PATIENT_DATA_PATH = pathName;
+    }
+
+    public DataFrame getLoadedData(){
         loadFile(PATIENT_DATA_PATH);
+        return patientData;
     }
 
     private void loadFile(String pathName){
