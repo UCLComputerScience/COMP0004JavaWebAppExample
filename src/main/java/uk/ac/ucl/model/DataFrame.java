@@ -7,22 +7,15 @@ import java.util.List;
 
 public class DataFrame {
     Hashtable<String, Column> columnsCollection = new Hashtable<>();
+    static final String FIRST_NAME = "FIRST";
 
     public void addColumn(String name){
         columnsCollection.put(name, new Column(name));
     }
 
     public List<String> getPatientNames(){
-        List<String> patientNameList = new ArrayList<>();
-        for(Column column : columnsCollection.values()){
-            patientNameList.add(column.getRowValue(0));
-        }
-        System.out.print(patientNameList);
-        return patientNameList;
-    }
-
-    public ArrayList<String> getColumnNames() {
-        return new ArrayList<> (columnsCollection.keySet());
+        Column nameColumn = columnsCollection.get(FIRST_NAME);
+        return nameColumn.getRows();
     }
 
     public int getRowCount(){
@@ -56,9 +49,10 @@ public class DataFrame {
             matchingValues.addAll(column.searchRows(keyword));
         }
 
-        if (matchingValues.size() == 0){
+        if (matchingValues.isEmpty()){
             matchingValues.add("404 Keyword Not Found");
         }
+
         return matchingValues;
     }
 

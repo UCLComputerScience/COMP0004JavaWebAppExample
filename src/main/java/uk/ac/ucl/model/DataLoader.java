@@ -4,6 +4,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 
+import javax.xml.crypto.Data;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataLoader {
-    DataFrame patientData = new DataFrame();
+    public DataFrame patientData = new DataFrame();
     final String PATIENT_DATA_PATH;
     List<String> headerNames = new ArrayList<>();
 
@@ -25,15 +26,16 @@ public class DataLoader {
     }
 
     private void loadFile(String pathName){
-        try (Reader reader = new FileReader(pathName);
-            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)){
-            CSVRecord headerColumn = csvParser.getRecords().get(0);
-            for (String header : headerColumn) {
-                headerNames.add(header);
-            }
+        try {
+            Reader reader = new FileReader(pathName);
+            CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader());
+            headerNames  = csvParser.getHeaderNames();
+            // Load Header
             loadColumns(headerNames);
-            processLines(csvParser);
-
+            // Load Content
+            for (CSVRecord lineRecord: csvParser){
+                processLines(lineRecord);
+            }
         } catch (IOException e) {
             // Should handle exception here!!
             e.printStackTrace();
@@ -46,12 +48,10 @@ public class DataLoader {
         }
     }
 
-    private void processLines(CSVParser csvParser){
-        for (CSVRecord record : csvParser){
-            for (String headerName: headerNames){
-                String value = record.get(headerName);
-                patientData.addValue(headerName, record.get(headerName));
-            }
+    private void processLines(CSVRecord lineRecord) {
+        for(String columnName: headerNames){
+            String value = lineRecord.get(columnName);
+            patientData.addValue(columnName, value);
         }
     }
 }
