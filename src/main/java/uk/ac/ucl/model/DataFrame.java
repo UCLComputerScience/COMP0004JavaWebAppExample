@@ -3,6 +3,7 @@ package uk.ac.ucl.model;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 public class DataFrame {
     Hashtable<String, Column> columnsCollection = new Hashtable<>();
@@ -11,8 +12,17 @@ public class DataFrame {
         columnsCollection.put(name, new Column(name));
     }
 
+    public List<String> getPatientNames(){
+        List<String> patientNameList = new ArrayList<>();
+        for(Column column : columnsCollection.values()){
+            patientNameList.add(column.getRowValue(0));
+        }
+        System.out.print(patientNameList);
+        return patientNameList;
+    }
+
     public ArrayList<String> getColumnNames() {
-        return new ArrayList<>(columnsCollection.keySet());
+        return new ArrayList<> (columnsCollection.keySet());
     }
 
     public int getRowCount(){

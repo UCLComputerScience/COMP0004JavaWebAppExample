@@ -7,12 +7,13 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataLoader {
     DataFrame patientData = new DataFrame();
     final String PATIENT_DATA_PATH;
-    List<String> headerNames;
+    List<String> headerNames = new ArrayList<>();
 
     public DataLoader(String pathName){
         PATIENT_DATA_PATH = pathName;
@@ -26,8 +27,10 @@ public class DataLoader {
     private void loadFile(String pathName){
         try (Reader reader = new FileReader(pathName);
             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT)){
-
-            List<String> headerNames = csvParser.getHeaderNames();
+            CSVRecord headerColumn = csvParser.getRecords().get(0);
+            for (String header : headerColumn) {
+                headerNames.add(header);
+            }
             loadColumns(headerNames);
             processLines(csvParser);
 

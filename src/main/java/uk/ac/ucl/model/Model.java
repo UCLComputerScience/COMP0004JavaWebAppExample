@@ -10,7 +10,7 @@ public class Model {
     }
 
     public List<String> getPatientNames(){
-        return newFrame.getColumnNames();
+        return newFrame.getPatientNames();
     }
 
     public List<String> searchFor(String keyword){
