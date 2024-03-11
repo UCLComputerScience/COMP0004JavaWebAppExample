@@ -5,17 +5,30 @@
 <head>
   <title>A Patient</title>
 </head>
-<%--<body>--%>
-<h1>Patient Info</h1>>
-<ul>
-  <%
-    List<String> patientInfo = (List<String>) request.getAttribute("patientInfo");
-    for(String info: patientInfo){
-  %>
-  <li>
-    <%=info%>
-  </li>
-  <% } %>
-</ul>
+<style>
+  body{
+    font-family: "Arial", sans-serif;
+  }
+
+  h1{
+    text-align: center;
+    background-color: aliceblue;
+  }
+</style>
+
+<body>
+  <h1>Patient Info</h1>
+  <ul>
+    <%
+      List<String> patientInfo = (List<String>) request.getAttribute("patientInfo");
+      for(String info: patientInfo){
+        if(!info.isEmpty()){
+    %>
+    <li><%=info%></li>
+    <%
+        }
+      }
+    %>
+  </ul>
 </body>
 </html>

@@ -17,11 +17,9 @@ import java.util.List;
 public class ViewPatientInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
-            System.out.println("something");
             Model model = ModelFactory.getModel();
             List<String> patientInfo = model.getPatientInfo(request.getParameter("id"));
             request.setAttribute("patientInfo", patientInfo);
-            System.out.println(patientInfo);
 
             ServletContext context = getServletContext();
             RequestDispatcher dispatch = context.getRequestDispatcher("/dummypage.jsp");
