@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet("/dummypage.jsp")
+@WebServlet("/dummypage.html")
 public class ViewPatientInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
@@ -25,8 +25,6 @@ public class ViewPatientInfoServlet extends HttpServlet {
 
             ServletContext context = getServletContext();
             RequestDispatcher dispatch = context.getRequestDispatcher("/dummypage.jsp");
-//            request.getRequestDispatcher("/dummypage.jsp").forward(request, response);
-            System.out.println();
             dispatch.forward(request, response);
 
     }

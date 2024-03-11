@@ -6,13 +6,16 @@
   <title>A Patient</title>
 </head>
 <%--<body>--%>
-<h1>patient</h1>>
+<h1>Patient Info</h1>>
+<ul>
   <%
-    System.out.println("entered");
     List<String> patientInfo = (List<String>) request.getAttribute("patientInfo");
-    System.out.println(patientInfo);
+    for(String info: patientInfo){
   %>
-<li><a> patientInfo </a></li>
+  <li>
+    <%=info%>
+  </li>
+  <% } %>
+</ul>
 </body>
-<%--<form action = "\ViewPatientinfoServlet" method = "get" ><textarea></form>--%>
 </html>
