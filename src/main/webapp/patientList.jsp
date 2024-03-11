@@ -15,9 +15,10 @@
       List<String> patients = (List<String>) request.getAttribute("patientNames");
       for (String patient : patients)
       {
-        String href = "dummypage.html";
+        String href = "dummypage.jsp";
     %>
-    <li><a href="<%=href%>"><%=patient%></a>
+    <%// created new page based on patient ID??%>
+    <li><a href="<%=href%>?id=<%=patient%>"><%=patient%></a>
     </li>
     <% } %>
   </ul>

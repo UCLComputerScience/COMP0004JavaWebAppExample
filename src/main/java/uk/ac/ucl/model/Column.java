@@ -2,6 +2,8 @@ package uk.ac.ucl.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class Column {
     /*
@@ -23,7 +25,7 @@ public class Column {
     }
 
     public String getRowValue(int rowNumber){
-        return rows.get(rowNumber);
+            return rows.get(rowNumber);
     }
 
     public void setRowValue(int rowNumber, String newValue){
@@ -44,5 +46,15 @@ public class Column {
 
     public List<String> getRows(){
         return rows;
+    }
+
+    public int getValueIndex(String targetVal){
+        int rowSize = rows.size();
+        for (int i = 0; i < rowSize; i ++){
+            if (rows.get(i).equals(targetVal)){
+                return i;
+            }
+        }
+        return -1;
     }
 }

@@ -51,6 +51,9 @@ public class DataLoader {
     private void processLines(CSVRecord lineRecord) {
         for(String columnName: headerNames){
             String value = lineRecord.get(columnName);
+            if (value == null){
+                value = "";
+            }
             patientData.addValue(columnName, value);
         }
     }

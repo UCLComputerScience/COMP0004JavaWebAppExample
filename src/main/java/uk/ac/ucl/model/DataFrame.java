@@ -1,13 +1,11 @@
 package uk.ac.ucl.model;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
+import java.util.*;
 
 public class DataFrame {
     Hashtable<String, Column> columnsCollection = new Hashtable<>();
     static final String FIRST_NAME = "FIRST";
+    static final List<String> INFO_SEQUENCE = Arrays.asList("PREFIX","FIRST", "LAST", "SUFFIX","MAIDEN","GENDER", "ID","BIRTHDATE","DEATHDATE","BIRTHPLACE", "SSN", "DRIVERS", "PASSPORT", "MARITAL", "RACE", "ETHNICITY", "ADDRESS", "CITY", "STATE", "ZIP");
 
     public void addColumn(String name){
         columnsCollection.put(name, new Column(name));
@@ -56,6 +54,22 @@ public class DataFrame {
         return matchingValues;
     }
 
+    public List<String> getPersonalInfo(String patientName){
+        List<String> infos = new ArrayList<>();
+        int index = columnsCollection.get(FIRST_NAME).getValueIndex(patientName);
+        System.out.println(patientName);
+        System.out.println(columnsCollection.get(FIRST_NAME).getRows());
+
+        for (String info: INFO_SEQUENCE){
+            String infoValue = columnsCollection.get(info).getRowValue(index);
+            if(!infoValue.isEmpty()) {
+                // if the info exist, reformat the value
+                infoValue = info + ": " + infoValue;
+            }
+            infos.add(infoValue);
+        }
+        return infos;
+    }
 
 }
 

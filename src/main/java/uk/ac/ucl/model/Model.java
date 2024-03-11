@@ -16,5 +16,9 @@ public class Model {
     public List<String> searchFor(String keyword){
         return newFrame.searchKeyword(keyword);
     }
+
+    public List<String> getPatientInfo(String patientName) {
+        return newFrame.getPersonalInfo(patientName);
+    }
 }
 
