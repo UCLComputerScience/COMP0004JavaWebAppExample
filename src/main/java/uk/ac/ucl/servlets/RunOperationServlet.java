@@ -1,6 +1,5 @@
 package uk.ac.ucl.servlets;
 
-import jdk.jfr.Frequency;
 import uk.ac.ucl.model.Model;
 import uk.ac.ucl.model.ModelFactory;
 
@@ -31,13 +30,15 @@ public class RunOperationServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         this.request = request;
         this.response = response;
+        String pageInitialised = request.getParameter("pageInitialised");
+        request.setAttribute("initialised", false);
 
-        initPage();
+        initAvailOptions();
 
-        String pageNotInitialised = request.getParameter("id");
-        if (pageNotInitialised == null){
-            handleInitedPage();
-            request.setAttribute("initialised", "1");
+        // if page is initialised (i.e. user has chose a operation) handle the operation
+        if(pageInitialised.equals("1")) {
+            handleOperation();
+            request.setAttribute("initialised", true);
         }
 
         ServletContext context = getServletContext();
@@ -45,24 +46,27 @@ public class RunOperationServlet extends HttpServlet {
         dispatch.forward(request,response);
     }
 
-    private void initPage() throws IOException {
+    private void initAvailOptions() throws IOException {
         this.model = ModelFactory.getModel();
-        HashMap<String, List<String>> optionCollection = model.getAvailOptionCollection();
-        List<String> availOptions = optionCollection.keySet().stream().toList();
+        HashMap<String, List<String>> options = model.getAvailFilterOptions();
+        List<String> availColumns = options.keySet().stream().toList();
 
-        request.setAttribute("filterCollections", optionCollection);
-        request.setAttribute("availOptions", availOptions);
+        request.setAttribute("options", options);
+        request.setAttribute("availColumns", availColumns);
     }
 
-    private void handleInitedPage(){
+    private void handleOperation(){
+        request.setAttribute("sorted", false);
+
         String filterOption = request.getParameter("filterOptions");
-        String filterValue = request.getParameter("filtValue");
+        String filterValue = request.getParameter("filterValue");
         String operation = request.getParameter("operation");
 
+        // filter patient and get the index
         List<Integer> filteredIndex = model.getFilteredPatient(filterOption, filterValue);
 
-        request.setAttribute("sorted", false);
         if (operation == null){
+            // merely display the filtered patients if no operation chosen
             displayFilteredPatients(filteredIndex);
         } else {
             switch(operation){
@@ -91,8 +95,10 @@ public class RunOperationServlet extends HttpServlet {
         String sortMethod = request.getParameter("sortMethod");
         String sortValue = request.getParameter("sortValue");
         List<Integer> sortedPatientsIndex = model.sortBy(filteredPatients, sortMethod, sortValue);
+
         request.setAttribute("sorted", true);
-        request.setAttribute("sortOrder", sortedPatientsIndex);
+        // Use the boolean var "sorted" to avoid null pointer error
+        request.setAttribute("order", sortedPatientsIndex);
         setAttributeOf(sortedPatientsIndex);
     }
 

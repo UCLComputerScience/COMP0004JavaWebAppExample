@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 // The servlet invoked to perform a search.
 // The url http://localhost:8080/runsearch.html is mapped to calling doPost on the servlet object.
@@ -25,8 +24,9 @@ public class  SearchServlet extends HttpServlet
     // Use the model to do the search and put the results into the request object sent to the
     // Java Server Page used to display the results.
     Model model = ModelFactory.getModel();
-    String targetColumn = request.getParameter("searchOptions");
-    HashMap<Integer, String> searchResult = model.searchFor(targetColumn, request.getParameter("searchstring"));
+    String column = request.getParameter("searchOptions");
+    // the result contains the matching IDs (index in the column) and values
+    HashMap<Integer, String> searchResult = model.searchFor(column, request.getParameter("searchstring"));
     request.setAttribute("result", searchResult);
 
     // Invoke the JSP page.

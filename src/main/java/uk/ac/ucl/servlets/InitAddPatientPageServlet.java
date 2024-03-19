@@ -16,10 +16,6 @@ import java.util.List;
 @WebServlet("/addPatientPage.html")
 public class InitAddPatientPageServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Model model = ModelFactory.getModel();
-        List<String> columns = model.getColumnSequence();
-        request.setAttribute("columns", columns);
-
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/addPatient.jsp");
         dispatch.forward(request,response);

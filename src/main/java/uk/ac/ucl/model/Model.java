@@ -2,12 +2,11 @@ package uk.ac.ucl.model;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class Model {
-    static final String[] OPTIONAL_COLUMNS = {"BIRTHPLACE","CITY","ETHNICITY","GENDER","RACE","STATE","MARITAL"};
+    private static final String[] OPTIONAL_COLUMNS_TO_FILTER = {"BIRTHPLACE","CITY","ETHNICITY","GENDER","RACE","STATE","MARITAL"};
     static final String JSON_PREFIX_BLOCK =
             """
             {
@@ -19,6 +18,8 @@ public class Model {
             }
             """;
     private DataFrame newFrame = new DataFrame();
+
+
     public void readFile(String pathName){
         DataLoader newLoader = new DataLoader(pathName);
         newFrame = newLoader.getLoadedData();
@@ -32,38 +33,34 @@ public class Model {
         return newFrame.getPatientNames(patients);
     }
 
-    public HashMap<Integer, String> searchFor(String option, String keyword){
-        return newFrame.searchKeyword(option, keyword);
+    public HashMap<Integer, String> searchFor(String column, String keyword){
+        return newFrame.searchKeyword(column, keyword);
     }
 
     public HashMap<String, String> getPatientInfo(String id) {
         return newFrame.getPersonalInfo(id);
     }
 
-    public List<String> getColumnSequence(){
-        return newFrame.getInfoSequence();
+    public List<String> getColumnNames(){
+        return newFrame.getColumnNames();
     }
 
     public List<Integer> getFilteredPatient(String column, String value) {
         if (column.isEmpty() || value.isEmpty()){
+            // filter N/A, return all the patients
             return newFrame.getAllPatientsIndices();
         } else {
             return newFrame.getFilteredPatients(column, value);
         }
     }
 
-    public HashMap<Integer,String> getValueFromColumnIndices(String columnName, List<Integer> indices){
-        HashMap<Integer, String> valueAndIndexCollection = new HashMap<>();
-        List<String> values =  newFrame.getValueFromColumnIndices(columnName, indices);
-        for (int i = 0; i < indices.size(); i ++){
-            valueAndIndexCollection.put(indices.get(i), values.get(i));
-        }
-        return valueAndIndexCollection;
-    }
-
-    public HashMap<String, List<String>> getAvailOptionCollection(){
+    /**
+     * Get the available columns and values to filter
+     * @return a HashMap containing available columns to filter and available values for this option {Column: [Values]}
+     */
+    public HashMap<String, List<String>> getAvailFilterOptions(){
         HashMap<String, List<String>> availOptionCollection = new HashMap<>();
-        for (String columnName: OPTIONAL_COLUMNS){
+        for (String columnName: OPTIONAL_COLUMNS_TO_FILTER){
             List<String> correspondingUniqueValues = newFrame.getUniqueValueOfColumn(columnName);
             availOptionCollection.put(columnName,correspondingUniqueValues);
         }

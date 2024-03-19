@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Invoke the page that displays all info about the patient
@@ -25,8 +24,6 @@ public class ViewPatientInfoServlet extends HttpServlet {
             String id= request.getParameter("id");
 
             HashMap<String, String> patientInfo = model.getPatientInfo(id);
-            List<String> displaySequence = model.getColumnSequence();
-            request.setAttribute("displaySequence", displaySequence);
             request.setAttribute("patientInfo", patientInfo);
             request.setAttribute("id", id);
 

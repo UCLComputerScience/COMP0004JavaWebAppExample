@@ -5,49 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
+/**
+ *  A DataFrame that holds a collection of columns
+ *  Providing various methods to interact with the database
+ */
 public class DataFrame {
     HashMap<String, Column> columnsCollection = new HashMap<>();
     static final String FIRST_NAME = "FIRST";
     static final String LAST_NAME = "LAST";
-    static final List<String> INFO_SEQUENCE = Arrays.asList("PREFIX","FIRST", "LAST", "SUFFIX","MAIDEN","GENDER", "ID","BIRTHDATE","DEATHDATE","BIRTHPLACE", "SSN", "DRIVERS", "PASSPORT", "MARITAL", "RACE", "ETHNICITY", "ADDRESS", "CITY", "STATE", "ZIP");
     static final int NUMBER_OF_GROUPS = 11;
 
     public void addColumn(String name){
         columnsCollection.put(name, new Column(name));
-    }
-
-    public List<String> getPatientNames(){
-        /**
-         * @return: a list of patient name in sequence based on index position
-         */
-        Column firstNameColumn = columnsCollection.get(FIRST_NAME);
-        Column lastNameColumn = columnsCollection.get(LAST_NAME);
-        List<String> fullNames = new ArrayList<>();
-
-        // combine first and last name
-        for(int i = 0; i < getRowCount(); i ++){
-            fullNames.add(firstNameColumn.getRowValue(i) + " " +
-                    lastNameColumn.getRowValue(i));
-        }
-
-        return fullNames;
-    }
-
-    public HashMap<Integer, String> getPatientNames(List<Integer> patients){
-        /**
-         * @return the full name of the provided patients
-         */
-        Column firstNameColumn = columnsCollection.get(FIRST_NAME);
-        Column lastNameColumn = columnsCollection.get(LAST_NAME);
-        HashMap<Integer, String> fullNames = new HashMap<>();
-
-        // combine first and last name
-        patients.forEach(
-                i -> fullNames.put(i,
-                firstNameColumn.getRowValue(i) + " " + lastNameColumn.getRowValue(i)
-                ));
-
-        return fullNames;
     }
 
     public List<String> getColumnNames(){
@@ -64,8 +33,8 @@ public class DataFrame {
         }
     }
 
-    public String getValue(String columnName,int row) {
-        Column targetColumn = columnsCollection.get(columnName);
+    public String getValue(String column,int row) {
+        Column targetColumn = columnsCollection.get(column);
         return targetColumn.getRowValue(row);
     }
 
@@ -87,39 +56,62 @@ public class DataFrame {
     }
 
     public void removeRow(int id){
-        System.out.println("id");
         for(String name: columnsCollection.keySet()){
             columnsCollection.get(name).removeRow(id);
         }
     }
 
-    public HashMap<Integer, String> searchKeyword(String targetColumn, String keyword){
-        Column column = columnsCollection.get(targetColumn);
-        return column.searchRows(keyword);
+    public HashMap<Integer, String> searchKeyword(String column, String keyword){
+        return columnsCollection.get(column).searchRows(keyword);
+    }
 
+    /**
+     * @return a list of patients' full name in sequence based on index position
+     */
+    public List<String> getPatientNames(){
+        Column firstNameColumn = columnsCollection.get(FIRST_NAME);
+        Column lastNameColumn = columnsCollection.get(LAST_NAME);
+        List<String> fullNames = new ArrayList<>();
+
+        // combine first and last name
+        for(int i = 0; i < getRowCount(); i ++){
+            fullNames.add(firstNameColumn.getRowValue(i) + " " +
+                    lastNameColumn.getRowValue(i));
+        }
+
+        return fullNames;
+    }
+
+    /**
+     * @param patients a list of indices of patient
+     * @return the full name of the provided patients
+     */
+    public HashMap<Integer, String> getPatientNames(List<Integer> patients){
+        Column firstNameColumn = columnsCollection.get(FIRST_NAME);
+        Column lastNameColumn = columnsCollection.get(LAST_NAME);
+        HashMap<Integer, String> fullNames = new HashMap<>();
+
+        // combine first and last name
+        patients.forEach(
+                i -> fullNames.put(i,
+                firstNameColumn.getRowValue(i) + " " + lastNameColumn.getRowValue(i)
+        ));
+
+        return fullNames;
     }
 
     public HashMap<String, String> getPersonalInfo(String id){
         HashMap<String, String> infos = new HashMap<>();
 
-        for (String info: INFO_SEQUENCE){
-            String infoValue = columnsCollection.get(info).getRowValue(Integer.parseInt(id));
-            if(!infoValue.isEmpty()) {
-                // if the info exist, reformat the value
-                infoValue = info + ": " + infoValue;
-            }
-            infos.put(info, infoValue);
+        for (String column: getColumnNames()){
+            String value = columnsCollection.get(column).getRowValue(Integer.parseInt(id));
+            infos.put(column, value);
         }
         return infos;
     }
 
-    public List<String> getInfoSequence(){
-        return INFO_SEQUENCE;
-    }
-
     public List<Integer> getFilteredPatients(String column, String value){
-        List<Integer> filteredPatientsIndex = columnsCollection.get(column).getFilteredValuesIndex(value);
-        return filteredPatientsIndex;
+        return columnsCollection.get(column).getValueIndex(value);
     }
 
     public List<Integer> getAllPatientsIndices(){
@@ -221,7 +213,7 @@ public class DataFrame {
     private List<Integer> sortByAge(List<Integer> filteredPatients, String sortMethod){
         List<Integer> orderOfPatients = new ArrayList<>(filteredPatients);
         // map patient to the age
-        HashMap<Integer, Long> patientsToAge = getPatientsToAge(filteredPatients);
+        HashMap<Integer, Long> patientsToAge = getPatientsToAgeMap(filteredPatients);
         // Sort patients
         orderOfPatients.sort(Comparator.comparingLong(patient -> {
             Long age = patientsToAge.get(filteredPatients.indexOf(patient));
@@ -235,7 +227,7 @@ public class DataFrame {
         return orderOfPatients;
     }
 
-    private HashMap<Integer, Long> getPatientsToAge(List<Integer> filteredPatients) {
+    private HashMap<Integer, Long> getPatientsToAgeMap(List<Integer> filteredPatients) {
         HashMap<Integer, Long> patientsToAge = new HashMap<>();
         for(int patient: filteredPatients){
             Long age = calculateAge(patient);
@@ -253,23 +245,25 @@ public class DataFrame {
     }
 
     private String convertNewPatientToString(int index){
-        // add prefix
+        // prefix
         StringBuilder newPatient = new StringBuilder("\t\t{\n");
         List<String> columns = getColumnNames();
+
         // patient info
         for (String column: columns){
             String columnValue = getValue(column, index);
             if (!columns.getLast().equals(column)){
                 newPatient.append("""
-                                        "%s":"%s",
+                                    "%s":"%s",
                             """.formatted(column, columnValue));
             } else {
                 // handle last column
                 newPatient.append("""
-                                        "%s":"%s"
+                                    "%s":"%s"
                             """.formatted(column, columnValue));
             }
         }
+
         // suffix
         if (index != getRowCount() - 1) {
             newPatient.append("\t\t},\n");

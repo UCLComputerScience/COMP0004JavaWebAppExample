@@ -20,7 +20,7 @@ public class AddNewPatientServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         Model model = ModelFactory.getModel();
         HashMap<String, String> infoOFPatient = new HashMap<>();
-        List<String> columns = model.getColumnSequence();
+        List<String> columns = model.getColumnNames();
         for(String column: columns){
             infoOFPatient.put(column,request.getParameter(column));
         }

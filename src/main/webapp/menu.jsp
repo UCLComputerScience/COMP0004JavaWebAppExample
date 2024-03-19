@@ -16,7 +16,7 @@
       <a href="search.html">Search</a>
     </li>
     <li>
-      <a href="operations.html?id=0">Operations</a>
+      <a href="operations.html?pageInitialised=0">Operations</a>
     </li>
     <li>
       <a href="statschart.html">Show Stats</a>

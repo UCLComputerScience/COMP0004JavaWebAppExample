@@ -9,9 +9,11 @@
 <html>
 <head>
     <title>Redirect to updated patient</title>
-    <meta http-equiv="refresh" content="0;url=patientinfo.html?id=<%=request.getAttribute("id").toString()%>">
+    <%String url = "patientinfo.html?id=" + request.getAttribute("id");%>
+    <meta http-equiv="refresh" content="3;url=<%=url%>">
 </head>
 <body>
-    <p>edit successful, redirect to updated patient</p>
+    <p>edit successful, redirect to updated patient in 3 seconds</p>
+    <a href = "<%=url%>">press here if you are not automatically directed</a>
 </body>
 </html>

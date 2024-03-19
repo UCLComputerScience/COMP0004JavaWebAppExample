@@ -7,17 +7,18 @@
     <title>Operations</title>
     <jsp:include page="/header.jsp"/>
     <script>
-        <%-- Dynamic Drop-down Boxes--%>
+        <%-- Dynamic Drop-down Boxes Column -> Values --%>
         var availObject = {}
+        // initialise the availObject
         <%
-        HashMap filterCollections = (HashMap<String, List>) request.getAttribute("filterCollections");
-        List<String> availOptions = (List<String>) request.getAttribute("availOptions");
+        HashMap options = (HashMap<String, List>) request.getAttribute("options");
+        List<String> availColumns = (List<String>) request.getAttribute("availColumns");
 
-        for (String option: availOptions){
-            List<String> availValues = (List<String>) filterCollections.get(option); %>
-            availObject["<%=option%>"] = [];
+        for (String column: availColumns){
+            List<String> availValues = (List<String>) options.get(column); %>
+            availObject["<%=column%>"] = [];
         <% for (String value: availValues){ %>
-                availObject["<%=option%>"].push("<%=value%>")
+                availObject["<%=column%>"].push("<%=value%>")
         <%
             }
         }
@@ -25,7 +26,7 @@
 
         window.onload = function() {
             var optionSelect = document.getElementById("filterOptions");
-            var valueSelect = document.getElementById("filtValue");
+            var valueSelect = document.getElementById("filterValue");
             for (var x in availObject){
                 optionSelect.options[optionSelect.options.length] = new Option(x,x);
             }
@@ -43,14 +44,14 @@
 <body>
 <h2>Patients Operations</h2>
 <h3>Choose the operation from below</h3>
-<form action="/operations.html" id="1">
-
+<form action="/operations.html?">
+<%--find highest age--%>
     <input type="radio" id="findHighest"  name="operation" value = "1">
     <label for="findHighest">Find Highest Age</label> <br>
-
+<%--find smallest age--%>
     <input type="radio" id="findLowest" name="operation" value="2">
     <label for="findLowest">Find Lowest Age</label> <br>
-
+<%--sort by value--%>
     <input type="radio" id="sort" name="operation" value="3">
     <label for="sort">Sort
         <select name="sortMethod" id="sortMethod">
@@ -64,28 +65,28 @@
             <option value="AGE">age</option>
         </select>
     </label>
-
+<%--Filter by column value--%>
     <h3> Filter </h3>
     <p>From
     <select name="filterOptions" id="filterOptions">
         <option value="" selected="selected">Select All</option>
     </select>
     show only
-    <select name="filtValue" id="filtValue">
+    <select name="filterValue" id="filterValue">
         <option value="" selected="selected">All</option>
     </select><br><br>
-    <input type="submit" value="Submit">
+    <button type="submit" name="pageInitialised" value="1">Submit</button>
     </p>
 
 </form>
 <%--show result patient list--%>
-<% if(request.getAttribute("initialised") != null){%>
+<% if((Boolean) request.getAttribute("initialised")){%>
     <%
         HashMap<Integer, String> patientList = (HashMap<Integer, String>) request.getAttribute("patientsToDisplay"); %>
     <p>The result contains <%=patientList.size()%> patients</p>
     <%
         if ((Boolean) request.getAttribute("sorted")){
-            List<Integer> displayOrder = (List<Integer>) request.getAttribute("sortOrder");
+            List<Integer> displayOrder = (List<Integer>) request.getAttribute("order");
             for(Integer id: displayOrder){
                 String href = "patientinfo.html?"
                         + "id=" + id; %>

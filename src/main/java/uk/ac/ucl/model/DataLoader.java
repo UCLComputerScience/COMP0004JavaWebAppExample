@@ -11,6 +11,9 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A DataLoader that provides the method to load the file into data frame
+ */
 public class DataLoader {
     public DataFrame patientData = new DataFrame();
     final String PATIENT_DATA_PATH;
