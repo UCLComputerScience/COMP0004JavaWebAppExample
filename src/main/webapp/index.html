@@ -1,22 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Patient Data</title>
+    <meta charset="UTF-8">
+    <title>Start Page</title>
 </head>
 <body>
-<h2>Welcome to the Patient Data App</h2>
-
-<nav>
-  <ul>
-    <li>
-      <a href="patientList.html">View the Patient ID List</a>
-    </li>
-    <li>
-      <a href="search.html">Search</a>
-    </li>
-  </ul>
-</nav>
+<h1>Welcome to the Patient App</h1>
+<p>choose the file you want to read</p>
+<form action = "/menu.html">
+    <label for = "fileOptions">Choose the file of patient number</label>
+    <select name = "fileOptions" id = "fileOptions">
+        <option value = "100" selected>100 (default)</option>
+        <option value = "1000"> 1000 </option>
+        <option value = "10000"> 10000 </option>
+        <option value = "100000"> 100000 </option>
+    </select> <br>
+    <input type="submit" value="Submit">
+</form>
 
 </body>
 </html>

@@ -11,18 +11,27 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
-@WebServlet("/dummypage.html")
+/**
+ * Invoke the page that displays all info about the patient
+ */
+@WebServlet("/patientinfo.html")
 public class ViewPatientInfoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException, ServletException {
             Model model = ModelFactory.getModel();
-            List<String> patientInfo = model.getPatientInfo(request.getParameter("id"));
+            String id= request.getParameter("id");
+
+            HashMap<String, String> patientInfo = model.getPatientInfo(id);
+            List<String> displaySequence = model.getColumnSequence();
+            request.setAttribute("displaySequence", displaySequence);
             request.setAttribute("patientInfo", patientInfo);
+            request.setAttribute("id", id);
 
             ServletContext context = getServletContext();
-            RequestDispatcher dispatch = context.getRequestDispatcher("/dummypage.jsp");
+            RequestDispatcher dispatch = context.getRequestDispatcher("/patientInfo.jsp");
             dispatch.forward(request, response);
 
     }

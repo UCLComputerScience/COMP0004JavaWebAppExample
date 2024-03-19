@@ -1,9 +1,6 @@
 package uk.ac.ucl.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class Column {
     /*
@@ -36,10 +33,12 @@ public class Column {
         rows.add(newValue);
     }
 
-    public ArrayList<String> searchRows(String keywords){
-        ArrayList<String> matchingValues = new ArrayList<>();
-        for (String value: rows){
-            if (value.contains(keywords)) {matchingValues.add(value);}
+    public HashMap<Integer, String> searchRows(String keywords){
+        HashMap<Integer,String> matchingValues = new HashMap<>();
+        for (int i = 0; i < rows.size(); i ++){
+            if (rows.get(i).contains(keywords)) {
+                matchingValues.put(i,rows.get(i));
+            }
         }
         return matchingValues;
     }
@@ -56,5 +55,33 @@ public class Column {
             }
         }
         return -1;
+    }
+
+    public List<Integer> getFilteredValuesIndex(String value){
+        List<Integer> filteredIndex = new ArrayList();
+        for(int i = 0; i < rows.size(); i++){
+            if(rows.get(i).equals(value)){
+               filteredIndex.add(i);
+            }
+        }
+        return filteredIndex;
+    }
+
+    public List<String> getUniqueValues(){
+        Set<String> uniqueValueSet = new HashSet<>(rows);
+        return new ArrayList<>(uniqueValueSet);
+    }
+
+    public List<Integer> sortBy(List<Integer> filteredPatients, String sortMethod){
+        List<Integer> indices = new ArrayList<>(filteredPatients);
+        indices.sort(Comparator.comparing(rows::get));
+        if (sortMethod.equals("Descending")){
+            indices = indices.reversed();
+        }
+        return indices;
+    }
+
+    public void removeRow(int id) {
+        rows.remove(id);
     }
 }
