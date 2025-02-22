@@ -1,4 +1,4 @@
-package ucl.ac.uk.main;
+package uk.ac.ucl.main;
 
 import java.io.IOException;
 import java.nio.file.Files;
