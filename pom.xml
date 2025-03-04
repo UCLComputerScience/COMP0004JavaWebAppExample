@@ -5,13 +5,13 @@
 
   <groupId>uk.ac.ucl</groupId>
 
-  <artifactId>WebApp</artifactId>
+  <artifactId>WebNote</artifactId>
 
-  <version>1.2</version>
+  <version>0.0</version>
 
   <packaging>war</packaging>
 
-  <name>WebApp</name>
+  <name>WebNote</name>
 
   <url>http://localhost:8080</url>
 
