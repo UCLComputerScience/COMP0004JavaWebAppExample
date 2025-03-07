@@ -8,8 +8,9 @@ public class Note {
     private String title;
     private List<NoteContent> contents = new ArrayList<>();
 
-    public Note(String id) {
+    public Note(String id, String title) {
         this.id = id;
+        this.title = title;
     }
 
     public String getId() {
@@ -22,6 +23,14 @@ public class Note {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void addContent(NoteContent content) {
+        contents.add(content);
+    }
+
+    public List<NoteContent> getAllContent() {
+        return contents;
     }
 
 }
