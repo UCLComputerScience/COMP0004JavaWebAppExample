@@ -29,6 +29,10 @@ public class Note {
         contents.add(content);
     }
 
+    public void setContents(List<NoteContent> contents) {
+        this.contents = contents;
+    }
+
     public List<NoteContent> getAllContent() {
         return contents;
     }
