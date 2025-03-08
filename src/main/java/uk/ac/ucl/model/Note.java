@@ -1,16 +1,27 @@
 package uk.ac.ucl.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Note {
     private final String id;
     private String title;
-    private List<NoteContent> contents = new ArrayList<>();
+    private List<NoteContent> contents;
+
+    @JsonCreator
+    public Note(@JsonProperty("id") String id, @JsonProperty("title") String title, @JsonProperty("contents") List<NoteContent> contents) {
+        this.id = id;
+        this.title = title;
+        this.contents = contents;
+    }
 
     public Note(String id, String title) {
         this.id = id;
         this.title = title;
+        this.contents = new ArrayList<>();
     }
 
     public String getId() {
@@ -33,7 +44,7 @@ public class Note {
         this.contents = contents;
     }
 
-    public List<NoteContent> getAllContent() {
+    public List<NoteContent> getContents() {
         return contents;
     }
 
