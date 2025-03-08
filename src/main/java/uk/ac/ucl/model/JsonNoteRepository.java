@@ -2,6 +2,7 @@ package uk.ac.ucl.model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,22 +25,41 @@ public class JsonNoteRepository implements NoteRepository {
     private void saveIdIndex() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File("data/noteIds.json"), notes.keySet());
+            objectMapper.writeValue(openFile(indexFilePath), notes.keySet());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private File openFile(String path) {
+        File file = new File(path);
+        if (!file.exists()) {
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                parentDir.mkdirs();
+            }
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
     private void loadIdIndex() {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            Set<String> noteIds = objectMapper.readValue(new File(indexFilePath), new TypeReference<Set<String>>() {
+            Set<String> noteIds = objectMapper.readValue(openFile(indexFilePath), new TypeReference<Set<String>>() {
             });
             // Initialize the notes to null. Lazy load them on demand.
             // Just want the ids at initialization.
             for (String id : noteIds) {
                 notes.put(id, null);
             }
+        } catch (MismatchedInputException e) {
+            // If the file is empty, just return.
+            return;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +72,7 @@ public class JsonNoteRepository implements NoteRepository {
         saveIdIndex();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File(notesDirectory + note.getId() + ".json"), note);
+            objectMapper.writeValue(openFile(notesDirectory + note.getId() + ".json"), note);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,7 +94,7 @@ public class JsonNoteRepository implements NoteRepository {
     private Note loadNoteByIdFromFiles(String id) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(new File(notesDirectory + id + ".json"), Note.class);
+            return objectMapper.readValue(openFile(notesDirectory + id + ".json"), Note.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -85,7 +105,7 @@ public class JsonNoteRepository implements NoteRepository {
     public void deleteNoteById(String id) {
         notes.remove(id);
         saveIdIndex();
-        File file = new File(notesDirectory + id + ".json");
+        File file = openFile(notesDirectory + id + ".json");
         file.delete();
     }
 
