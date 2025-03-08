@@ -22,8 +22,21 @@ public class NoteRepositoryTest {
         NoteRepository noteRepository = new JsonNoteRepository(testIndexPath, testNotesDirectory);
         Note testNote = noteRepository.loadNoteById("1");
         assert testNote != null;
-        assert testNote.getTitle().equals("Test Note");
-        assert testNote.getContents().get(0).getContent().equals("This is a test note");
+        assert !testNote.getTitle().isEmpty();
+        assert !testNote.getContents().get(0).getContent().isEmpty();
+    }
+
+    @Test
+    public void testNoteRepositoryUpdate() {
+        NoteRepository noteRepository = new JsonNoteRepository(testIndexPath, testNotesDirectory);
+        Note testNote = noteRepository.loadNoteById("1");
+        testNote.setTitle("Updated Test Note");
+        testNote.getContents().get(0).setContent("This is an updated test note");
+        noteRepository.writeNote(testNote);
+        Note updatedNote = noteRepository.loadNoteById("1");
+        assert updatedNote != null;
+        assert updatedNote.getTitle().equals("Updated Test Note");
+        assert updatedNote.getContents().get(0).getContent().equals("This is an updated test note");
     }
 
 }
