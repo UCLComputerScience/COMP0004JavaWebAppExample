@@ -12,10 +12,12 @@ import java.util.Set;
 public class JsonNoteRepository implements NoteRepository {
     private Map<String, Note> notes;
     private final String indexFilePath;
+    private final String notesDirectory;
 
-    public JsonNoteRepository(String indexFilePath) {
+    public JsonNoteRepository(String indexFilePath, String notesDirectory) {
         notes = new HashMap<>();
         this.indexFilePath = indexFilePath;
+        this.notesDirectory = notesDirectory;
         loadIdIndex();
     }
 
@@ -50,7 +52,7 @@ public class JsonNoteRepository implements NoteRepository {
         saveIdIndex();
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            objectMapper.writeValue(new File("data/notes/" + note.getId() + ".json"), note);
+            objectMapper.writeValue(new File(notesDirectory + note.getId() + ".json"), note);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,7 +74,7 @@ public class JsonNoteRepository implements NoteRepository {
     private Note loadNoteByIdFromFiles(String id) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
-            return objectMapper.readValue(new File("data/notes/" + id + ".json"), Note.class);
+            return objectMapper.readValue(new File(notesDirectory + id + ".json"), Note.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -83,7 +85,7 @@ public class JsonNoteRepository implements NoteRepository {
     public void deleteNoteById(String id) {
         notes.remove(id);
         saveIdIndex();
-        File file = new File("data/notes/" + id + ".json");
+        File file = new File(notesDirectory + id + ".json");
         file.delete();
     }
 
