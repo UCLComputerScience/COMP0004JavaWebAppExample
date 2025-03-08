@@ -1,5 +1,17 @@
 package uk.ac.ucl.model;
 
-public abstract class NoteContent {
-    public abstract String getContent();
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public class NoteContent {
+    private String content;
+
+    @JsonCreator
+    public NoteContent(@JsonProperty("content") String content) {
+        this.content = content;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }
