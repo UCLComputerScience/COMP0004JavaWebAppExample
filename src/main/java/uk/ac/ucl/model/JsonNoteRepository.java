@@ -1,6 +1,7 @@
 package uk.ac.ucl.model;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 
@@ -95,6 +96,14 @@ public class JsonNoteRepository implements NoteRepository {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             return objectMapper.readValue(openFile(notesDirectory + id + ".json"), Note.class);
+        } catch (MismatchedInputException e) {
+            try {
+                JsonNode jsonNode = objectMapper.readTree(openFile(notesDirectory + id + ".json"));
+                String noteTitle = jsonNode.get("title").asText();
+                return new Note(id, noteTitle);
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
