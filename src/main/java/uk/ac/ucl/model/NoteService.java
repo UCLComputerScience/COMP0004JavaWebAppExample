@@ -1,12 +1,16 @@
 package uk.ac.ucl.model;
 
+import java.util.List;
+
 public class NoteService {
     private NoteRepository noteRepository;
     private NoteFactory notefactory;
+    private NoteSearch noteSearch;
 
     public NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
         this.notefactory = new NoteFactory(noteRepository);
+        this.noteSearch = new NoteSearch(noteRepository);
     }
 
     public NoteService(String dataPath) {
@@ -14,6 +18,7 @@ public class NoteService {
         String noteFolderPath = dataPath + "/notes";
         this.noteRepository = new JsonNoteRepository(indexFilePath, noteFolderPath);
         this.notefactory = new NoteFactory(noteRepository);
+        this.noteSearch = new NoteSearch(noteRepository);
     }
 
     public Note createNote() {
@@ -34,5 +39,9 @@ public class NoteService {
 
     public void deleteNoteById(String id) {
         noteRepository.deleteNoteById(id);
+    }
+
+    public List<Note> searchNotes(String keyword) {
+        return noteSearch.searchNotes(keyword);
     }
 }

@@ -3,6 +3,8 @@ import uk.ac.ucl.model.JsonNoteRepository;
 import uk.ac.ucl.model.Note;
 import uk.ac.ucl.model.NoteService;
 
+import java.util.List;
+
 public class NoteServiceTest {
     @Test
     public void testNoteServiceCreation() {
@@ -41,4 +43,12 @@ public class NoteServiceTest {
         assert !note2.getTitle().isEmpty();
     }
 
+    @Test
+    public void testNoteServiceSearchNotes() {
+        NoteService noteService = new NoteService(new JsonNoteRepository("temp/testIndex.json", "temp/notes/"));
+        noteService.addNote(new Note("4", "Search Test Note"));
+        List<Note> searchResults = noteService.searchNotes("Search Test Note");
+        assert searchResults.size() == 1;
+        assert searchResults.get(0).getTitle().equals("Search Test Note");
+    }
 }
