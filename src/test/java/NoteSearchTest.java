@@ -62,4 +62,21 @@ public class NoteSearchTest {
         List<Note> result = noteSearch.searchNotes("Non-existent keyword");
         assert result.size() == 0;
     }
+
+    @Test
+    public void testSearchEmptyString() {
+        JsonNoteRepository noteRepository = new JsonNoteRepository(testIndexPath, testNotesDirectory);
+        NoteSearch noteSearch = new NoteSearch(noteRepository);
+
+        Note note1 = new Note("1", "Test Note 1");
+        note1.addContent(new NoteContent("This is the content of test note 1"));
+        noteRepository.writeNote(note1);
+
+        Note note2 = new Note("2", "Another Test Note");
+        note2.addContent(new NoteContent("This is the content of another test note"));
+        noteRepository.writeNote(note2);
+
+        List<Note> result = noteSearch.searchNotes("");
+        assert result.size() > 0;
+    }
 }
