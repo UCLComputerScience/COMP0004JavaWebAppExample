@@ -109,4 +109,9 @@ public class JsonNoteRepository implements NoteRepository {
         file.delete();
     }
 
+    @Override
+    public Set<String> getAllNoteIndex() {
+        return notes.keySet();
+    }
+
 }

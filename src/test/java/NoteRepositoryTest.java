@@ -39,4 +39,10 @@ public class NoteRepositoryTest {
         assert updatedNote.getContents().get(0).getContent().equals("This is an updated test note");
     }
 
+    @Test
+    public void testNoteRepositoryGetAllNoteIndex() {
+        NoteRepository noteRepository = new JsonNoteRepository(testIndexPath, testNotesDirectory);
+        assert noteRepository.getAllNoteIndex().size() > 0;
+    }
+
 }
