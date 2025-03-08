@@ -1,13 +1,10 @@
 package uk.ac.ucl.model;
 
-import java.util.Map;
-
 public interface NoteRepository {
 
-    void saveNote(Note note);
+    void writeNote(Note note);
 
-    Note getNoteById(String id);
+    Note loadNoteById(String id);
 
-    Map<String, Note> getAllNotes();
-
+    void deleteNoteById(String id);
 }
