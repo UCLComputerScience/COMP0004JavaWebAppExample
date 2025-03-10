@@ -4,23 +4,33 @@
 <html>
 <head>
   <jsp:include page="/meta.jsp"/>
-  <title>Patient Data App</title>
+  <title>Search Result</title>
 </head>
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
   <h1>Search Result</h1>
   <%
-    List<String> patients = (List<String>) request.getAttribute("result");
-    if (patients.size() !=0)
+    List<uk.ac.ucl.model.Note> notes = (List<uk.ac.ucl.model.Note>) request.getAttribute("result");
+    if (notes.size() != 0)
     {
     %>
     <ul>
       <%
-        for (String patient : patients)
+        for (uk.ac.ucl.model.Note note : notes)
         {
       %>
-      <li><%=patient%></li>
+      <li>
+        <h3><%=note.getTitle()%></h3>
+        <ul>
+          <%
+            for (uk.ac.ucl.model.NoteContent content : note.getContents())
+            {
+          %>
+          <li><%=content.getContent()%></li>
+          <% } %>
+        </ul>
+      </li>
      <% }
     } else
     {%>

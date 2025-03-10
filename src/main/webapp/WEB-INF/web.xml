@@ -9,4 +9,14 @@
     A note editor and manager on the browser.
   </description>
 
+  <servlet>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>uk.ac.ucl.servlets.SearchServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/searchNotes.html</url-pattern>
+  </servlet-mapping>
+
 </web-app>
