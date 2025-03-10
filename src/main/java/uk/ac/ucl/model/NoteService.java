@@ -1,5 +1,6 @@
 package uk.ac.ucl.model;
 
+import java.io.File;
 import java.util.List;
 
 public class NoteService {
@@ -15,7 +16,16 @@ public class NoteService {
 
     public NoteService(String dataPath) {
         String indexFilePath = dataPath + "/index.json";
-        String noteFolderPath = dataPath + "/notes";
+        String noteFolderPath = dataPath + "/notes/";
+        this.noteRepository = new JsonNoteRepository(indexFilePath, noteFolderPath);
+        this.notefactory = new NoteFactory(noteRepository);
+        this.noteSearch = new NoteSearch(noteRepository);
+    }
+
+    public NoteService() {
+        // Default data path
+        String indexFilePath = "data" + File.separator + "index.json";
+        String noteFolderPath = "data" + File.separator + "notes/";
         this.noteRepository = new JsonNoteRepository(indexFilePath, noteFolderPath);
         this.notefactory = new NoteFactory(noteRepository);
         this.noteSearch = new NoteSearch(noteRepository);
