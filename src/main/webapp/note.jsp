@@ -25,22 +25,26 @@
 <jsp:include page="/footer.jsp"/>
 <script>
     document.getElementById("addContentButton").addEventListener("click", function () {
-        var newContentDiv = document.createElement("div");
+        let newContentDiv = document.createElement("div");
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
+        //add placeholder text
+        newContentDiv.innerText = "Enter content here";
         document.getElementById("noteContents").appendChild(newContentDiv);
     });
 
     document.getElementById("saveButton").addEventListener("click", function () {
-        var noteId = "<%=note.getId()%>";
-        var noteTitle = document.getElementById("noteTitle").innerText;
-        var noteContents = [];
-        var contentDivs = document.getElementsByClassName("noteContent");
-        for (var i = 0; i < contentDivs.length; i++) {
-            noteContents.push(contentDivs[i].innerText);
+        let noteId = "<%=note.getId()%>";
+        let noteTitle = document.getElementById("noteTitle").innerText;
+        let contentDivs = document.getElementsByClassName("noteContent");
+
+        let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle.trimEnd());
+
+        for (let i = 0; i < contentDivs.length; i++) {
+            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText.trimEnd());
         }
 
-        var xhr = new XMLHttpRequest();
+        let xhr = new XMLHttpRequest();
         xhr.open("POST", "saveNote.html", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
@@ -48,7 +52,7 @@
                 window.location.href = "noteList.html";
             }
         };
-        xhr.send("noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle) + "&noteContent=" + encodeURIComponent(noteContents.join(",")));
+        xhr.send(formData);
     });
 </script>
 </body>
