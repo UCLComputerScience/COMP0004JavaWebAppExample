@@ -10,13 +10,19 @@
 </head>
 <body>
 <jsp:include page="/header.jsp"/>
-<div class="main" contenteditable="true">
+<div class="main">
     <h2><%=note.getTitle()%>
     </h2>
-    <% for (NoteContent content : note.getContents()) { %>
-    <p><%=content.getContent()%>
-    </p>
-    <% } %>
+    <form action="saveNote.html" method="post">
+        <input type="hidden" name="noteId" value="<%=note.getId()%>">
+        <label for="noteTitle">Title:</label>
+        <input type="text" id="noteTitle" name="noteTitle" value="<%=note.getTitle()%>">
+        <label for="noteContent">Content:</label>
+        <% for (NoteContent content : note.getContents()) { %>
+        <textarea id="noteContent" name="noteContent"><%=content.getContent()%></textarea>
+        <% } %>
+        <button type="submit">Save</button>
+    </form>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>

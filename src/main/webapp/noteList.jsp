@@ -23,6 +23,9 @@
         </li>
         <% } %>
     </ul>
+    <form action="createNote.html" method="get">
+        <button type="submit">Create New Note</button>
+    </form>
 </div>
 <jsp:include page="/footer.jsp"/>
 </body>
