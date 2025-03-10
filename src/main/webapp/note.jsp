@@ -11,12 +11,12 @@
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
-    <h2><%=note.getTitle()%>
-    </h2>
-    <div contenteditable="true" id="noteTitle"><%=note.getTitle()%></div>
+    <div contenteditable="true" id="noteTitle"><%=note.getTitle()%>
+    </div>
     <div id="noteContents">
         <% for (NoteContent content : note.getContents()) { %>
-        <div contenteditable="true" class="noteContent"><%=content.getContent()%></div>
+        <div contenteditable="true" class="noteContent"><%=content.getContent()%>
+        </div>
         <% } %>
     </div>
     <button id="addContentButton">Add Content</button>
@@ -24,14 +24,14 @@
 </div>
 <jsp:include page="/footer.jsp"/>
 <script>
-    document.getElementById("addContentButton").addEventListener("click", function() {
+    document.getElementById("addContentButton").addEventListener("click", function () {
         var newContentDiv = document.createElement("div");
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
         document.getElementById("noteContents").appendChild(newContentDiv);
     });
 
-    document.getElementById("saveButton").addEventListener("click", function() {
+    document.getElementById("saveButton").addEventListener("click", function () {
         var noteId = "<%=note.getId()%>";
         var noteTitle = document.getElementById("noteTitle").innerText;
         var noteContents = [];
@@ -43,7 +43,7 @@
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "saveNote.html", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
+        xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
                 window.location.href = "noteList.html";
             }
