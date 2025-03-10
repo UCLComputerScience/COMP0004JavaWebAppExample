@@ -17,10 +17,11 @@
     %>
     <ul>
         <%
-            for (uk.ac.ucl.model.Note note : notes) {
+            for (Note note : notes) {
         %>
         <li>
-            <h3><%=note.getTitle()%>
+            <h3><a href="note.html?noteId=<%=note.getId()%>"><%=note.getTitle()%>
+            </a>
             </h3>
             <%
                 for (uk.ac.ucl.model.NoteContent content : note.getContents()) {
