@@ -26,8 +26,12 @@ public class SaveNoteServlet extends HttpServlet {
         note.setTitle(noteTitle);
 
         List<NoteContent> contents = new ArrayList<>();
-        for (String content : noteContents) {
-            contents.add(new NoteContent(content));
+        if (noteContents != null) {
+            for (String content : noteContents) {
+                if (content != null && !content.trim().isEmpty()) {
+                    contents.add(new NoteContent(content));
+                }
+            }
         }
         note.setContents(contents);
 
