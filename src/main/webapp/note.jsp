@@ -11,7 +11,7 @@
 <body>
 <jsp:include page="/header.jsp"/>
 <div class="main">
-    <div contenteditable="true" id="noteTitle"><%=note.getTitle()%>
+    <div contenteditable="true" id="noteTitle" class="noteTitle"><%=note.getTitle()%>
     </div>
     <div id="noteContents">
         <% for (NoteContent content : note.getContents()) { %>

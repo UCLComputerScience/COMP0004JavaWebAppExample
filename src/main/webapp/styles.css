@@ -1,3 +1,48 @@
 .clearBoth {
   clear: both;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
+}
+
+h3 {
+  font-size: 1.17em;
+  margin: 0.83em 0;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  padding: 0.5em 0;
+  margin: 0;
+}
+
+button {
+  background-color: #4CAF50;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
