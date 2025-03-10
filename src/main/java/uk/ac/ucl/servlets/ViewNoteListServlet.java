@@ -12,7 +12,6 @@ import uk.ac.ucl.model.NoteService;
 import uk.ac.ucl.model.NoteServiceFactory;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 // The servlet invoked to display a list of patients. Note that this data is just example data,
@@ -23,19 +22,11 @@ import java.util.List;
 public class ViewNoteListServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        // Get the data from the model
-        NoteService noteService = NoteServiceFactory.getNoteService();
-        List<Note> notes = noteService.searchNotes("");
-        List<String> noteTiles = new ArrayList<>();
-        for (Note note : notes) {
-            noteTiles.add(note.getTitle());
-        }
-        // Then add the data to the request object that will be sent to the Java Server Page, so that
-        // the JSP can access the data (a Java data structure).
-        request.setAttribute("noteTitles", noteTiles);
 
-        // Invoke the JSP.
-        // A JSP page is actually converted into a Java class, so behind the scenes everything is Java.
+        NoteService noteService = NoteServiceFactory.getNoteService();
+        List<Note> notes = noteService.getAllNotes();
+        request.setAttribute("notes", notes);
+
         ServletContext context = getServletContext();
         RequestDispatcher dispatch = context.getRequestDispatcher("/noteList.jsp");
         dispatch.forward(request, response);

@@ -1,4 +1,5 @@
 <%@ page import="java.util.List" %>
+<%@ page import="uk.ac.ucl.model.Note" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -12,9 +13,10 @@
     <h2>Notes:</h2>
     <ul>
         <%
-            List<String> noteTitles = (List<String>) request.getAttribute("noteTitles");
-            for (String title : noteTitles) {
-                String href = "dummypage.html";
+            List<Note> notes = (List<Note>) request.getAttribute("notes");
+            for (Note note : notes) {
+                String title = note.getTitle();
+                String href = "note.html?noteId=" + note.getId();
         %>
         <li><a href="<%=href%>"><%=title%>
         </a>

@@ -10,13 +10,14 @@
 </head>
 <body>
 <jsp:include page="/header.jsp"/>
-<div class="main"></div>
-<h2><%=note.getTitle()%>
-</h2>
-<% for (NoteContent content : note.getContents()) { %>
-<p><%=content.getContent()%>
-</p>
-<% } %>
+<div class="main" contenteditable="true">
+    <h2><%=note.getTitle()%>
+    </h2>
+    <% for (NoteContent content : note.getContents()) { %>
+    <p><%=content.getContent()%>
+    </p>
+    <% } %>
+</div>
 <jsp:include page="/footer.jsp"/>
 </body>
 </html>

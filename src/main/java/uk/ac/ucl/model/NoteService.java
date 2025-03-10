@@ -51,6 +51,10 @@ public class NoteService {
         noteRepository.deleteNoteById(id);
     }
 
+    public List<Note> getAllNotes() {
+        return noteSearch.searchNotes("");
+    }
+
     public List<Note> searchNotes(String keyword) {
         return noteSearch.searchNotes(keyword);
     }
