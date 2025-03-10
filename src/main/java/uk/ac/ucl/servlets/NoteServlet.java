@@ -8,10 +8,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import uk.ac.ucl.model.Note;
+import uk.ac.ucl.model.NoteContent;
 import uk.ac.ucl.model.NoteService;
 import uk.ac.ucl.model.NoteServiceFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/note.html")
 public class NoteServlet extends HttpServlet {
@@ -37,7 +40,9 @@ public class NoteServlet extends HttpServlet {
 
         List<NoteContent> contents = new ArrayList<>();
         for (String content : noteContents) {
-            contents.add(new NoteContent(content));
+            if (content != null && !content.trim().isEmpty()) {
+                contents.add(new NoteContent(content));
+            }
         }
         note.setContents(contents);
 
