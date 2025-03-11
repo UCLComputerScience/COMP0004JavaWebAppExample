@@ -38,11 +38,11 @@
         let xhr = new XMLHttpRequest();
         xhr.open("POST", "saveNote.html", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                window.location.href = "note.html?noteId=" + noteId;
-            }
-        };
+        //xhr.onreadystatechange = function () {
+        //    if (xhr.readyState === 4 && xhr.status === 200) {
+        //         window.location.href = "note.html?noteId=" + noteId;
+        //    }
+        //};
         xhr.send(formData);
     }
 
@@ -50,8 +50,9 @@
         let newContentDiv = document.createElement("div");
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
+        newContentDiv.addEventListener("blur", saveNote);
         //add placeholder text
-        newContentDiv.innerText = "Enter content here";
+        //newContentDiv.innerText = "Enter content here";
         document.getElementById("noteContents").appendChild(newContentDiv);
     }
 
@@ -61,12 +62,12 @@
     let contentDivs = document.getElementsByClassName("noteContent");
     for (let i = 0; i < contentDivs.length; i++) {
         contentDivs[i].addEventListener("blur", saveNote);
-        contentDivs[i].addEventListener("keydown", function (event) {
-            if (event.key === "Enter") {
-                event.preventDefault();
-                addNewContentDiv();
-            }
-        });
+        //contentDivs[i].addEventListener("keydown", function (event) {
+        //    if (event.key === "Enter") {
+        //        event.preventDefault();
+        //        addNewContentDiv();
+        //    }
+        //});
     }
 </script>
 </body>

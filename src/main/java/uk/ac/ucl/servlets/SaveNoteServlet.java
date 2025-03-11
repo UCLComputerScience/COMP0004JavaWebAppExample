@@ -29,7 +29,9 @@ public class SaveNoteServlet extends HttpServlet {
         if (noteContents != null) {
             for (String content : noteContents) {
                 if (content != null && !content.trim().isEmpty()) {
-                    contents.add(new NoteContent(content));
+                    String formattedContent = content.replace("\r\n", "<br>")
+                            .replace("\n", "<br>");
+                    contents.add(new NoteContent(formattedContent));
                 }
             }
         }
@@ -37,6 +39,6 @@ public class SaveNoteServlet extends HttpServlet {
 
         noteService.updateNote(note);
 
-        response.sendRedirect("noteList.html");
+        //response.sendRedirect("noteList.html");
     }
 }
