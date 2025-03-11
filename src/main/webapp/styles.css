@@ -176,7 +176,7 @@ nav li {
 nav a {
     display: block;
     padding: 0.75rem 1rem;
-    color: var(--dark);
+    color: var (--dark);
     text-decoration: none;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
@@ -305,5 +305,22 @@ button.delete-button {
 }
 
 button.delete-button:hover {
+    background-color: var(--dark-danger);
+}
+
+/* New delete button styling */
+button.delete-content-button {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+button.delete-content-button:hover {
     background-color: var(--dark-danger);
 }
