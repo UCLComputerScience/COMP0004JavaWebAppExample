@@ -40,7 +40,7 @@
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
-                window.location.href = "noteList.html";
+                window.location.href = "note.html?noteId=" + noteId;
             }
         };
         xhr.send(formData);
