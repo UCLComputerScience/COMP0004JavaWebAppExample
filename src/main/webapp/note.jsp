@@ -29,10 +29,10 @@
         let noteTitle = document.getElementById("noteTitle").innerText;
         let contentDivs = document.getElementsByClassName("noteContent");
 
-        let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle.trimEnd());
+        let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle);
 
         for (let i = 0; i < contentDivs.length; i++) {
-            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText.trimEnd());
+            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText);
         }
 
         let xhr = new XMLHttpRequest();
