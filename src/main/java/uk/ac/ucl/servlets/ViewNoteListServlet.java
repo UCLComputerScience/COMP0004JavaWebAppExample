@@ -31,4 +31,11 @@ public class ViewNoteListServlet extends HttpServlet {
         RequestDispatcher dispatch = context.getRequestDispatcher("/noteList.jsp");
         dispatch.forward(request, response);
     }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        NoteService noteService = NoteServiceFactory.getNoteService();
+        String noteId = request.getParameter("noteId");
+        noteService.deleteNoteById(noteId);
+        response.sendRedirect("noteList.html");
+    }
 }

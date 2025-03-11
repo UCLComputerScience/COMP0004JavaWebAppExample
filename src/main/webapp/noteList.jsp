@@ -18,8 +18,9 @@
                 String title = note.getTitle();
                 String href = "note.html?noteId=" + note.getId();
         %>
-        <li><a href="<%=href%>"><%=title%>
-        </a>
+        <li>
+            <a href="<%=href%>"><%=title%></a>
+            <button onclick="deleteNote('<%=note.getId()%>')">Delete</button>
         </li>
         <% } %>
     </ul>
@@ -28,5 +29,23 @@
     </form>
 </div>
 <jsp:include page="/footer.jsp"/>
+<script>
+    function deleteNote(noteId) {
+        if (confirm("Are you sure you want to delete this note?")) {
+            var form = document.createElement("form");
+            form.method = "post";
+            form.action = "noteList.html";
+
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = "noteId";
+            input.value = noteId;
+
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
+        }
+    }
+</script>
 </body>
 </html>
