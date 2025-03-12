@@ -281,3 +281,7 @@ nav a:hover {
         margin-top: 0.5rem;
     }
 }
+
+.noteContent .noteContent {
+    white-space: pre-wrap;
+}
