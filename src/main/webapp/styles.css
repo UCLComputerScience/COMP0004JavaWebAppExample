@@ -7,6 +7,8 @@
     --gray: #6c757d;
     --light-gray: #e9ecef;
     --success: #4CAF50;
+    --danger: #dc3545;
+    --dark-danger: #b02a37;
 }
 
 * {
@@ -104,13 +106,15 @@ ul {
 li {
     margin: 0.75rem 0;
     padding: 0.5rem 0;
+    display: flex;
+    align-items: center;
 }
 
 li a {
     color: var(--secondary);
     text-decoration: none;
     font-weight: 500;
-    display: block;
+    flex-grow: 1;
     padding: 0.75rem 1rem;
     background-color: white;
     border-radius: 5px;
@@ -172,7 +176,7 @@ nav li {
 nav a {
     display: block;
     padding: 0.75rem 1rem;
-    color: var(--dark);
+    color: var (--dark);
     text-decoration: none;
     border-left: 3px solid transparent;
     transition: all 0.2s ease;
@@ -282,6 +286,42 @@ nav a:hover {
     }
 }
 
-.noteContent .noteContent {
+
+/* Note page styling */
+.noteContent, .noteTitle {
     white-space: pre-wrap;
+}
+
+/* Delete button styling */
+button.delete-button {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+button.delete-button:hover {
+    background-color: var(--dark-danger);
+}
+
+/* New delete button styling */
+button.delete-content-button {
+    background-color: var(--danger);
+    color: white;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-left: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+button.delete-content-button:hover {
+    background-color: var(--dark-danger);
 }

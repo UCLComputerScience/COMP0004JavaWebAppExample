@@ -1,1 +1,1 @@
-{"id":"1","title":"Test Note","contents":[{"content":"I am testing multiple lines content this is the second line"}]}
+{"id":"1","title":"I deleted all notes    \n    ","contents":[{"content":"So this is the only note by with multiple<br>lines<br>in the same block.      <br><br>        "},{"content":"and also multiple contents.  <br>   <br><br>        "}]}

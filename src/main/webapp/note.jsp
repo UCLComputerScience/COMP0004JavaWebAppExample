@@ -15,7 +15,9 @@
     </div>
     <div id="noteContents">
         <% for (NoteContent content : note.getContents()) { %>
-        <div contenteditable="true" class="noteContent"><%=content.getContent()%>
+        <div contenteditable="true" class="noteContent">
+            <%=content.getContent()%>
+            <button class="delete-button" onclick="deleteContent(this)">Delete</button>
         </div>
         <% } %>
     </div>
@@ -29,10 +31,10 @@
         let noteTitle = document.getElementById("noteTitle").innerText;
         let contentDivs = document.getElementsByClassName("noteContent");
 
-        let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle.trimEnd());
+        let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle);
 
         for (let i = 0; i < contentDivs.length; i++) {
-            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText.trimEnd());
+            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText);
         }
 
         let xhr = new XMLHttpRequest();
@@ -54,6 +56,13 @@
         //add placeholder text
         //newContentDiv.innerText = "Enter content here";
         document.getElementById("noteContents").appendChild(newContentDiv);
+    }
+
+    function deleteContent(button) {
+        let contentDiv = button.parentElement;
+        contentDiv.innerHTML = "";
+        saveNote();
+        location.reload();
     }
 
     document.getElementById("addContentButton").addEventListener("click", addNewContentDiv);
