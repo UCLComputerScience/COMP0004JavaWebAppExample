@@ -15,13 +15,15 @@
     </div>
     <div id="noteContents">
         <% for (NoteContent content : note.getContents()) { %>
-        <div contenteditable="true" class="noteContent">
-            <%=content.getContent()%>
+        <div>
+            <div contenteditable="true" class="noteContent">
+                <%=content.getContent()%>
+            </div>
             <button class="delete-button" onclick="deleteContent(this)">Delete</button>
         </div>
         <% } %>
     </div>
-    <button id="addContentButton">Add Content</button>
+    <button id="addContentButton" onclick="addNewContentDiv()">Add Content</button>
     <button id="saveButton">Save</button>
 </div>
 <jsp:include page="/footer.jsp"/>
@@ -53,8 +55,6 @@
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
         newContentDiv.addEventListener("blur", saveNote);
-        //add placeholder text
-        //newContentDiv.innerText = "Enter content here";
         document.getElementById("noteContents").appendChild(newContentDiv);
     }
 
@@ -65,18 +65,11 @@
         location.reload();
     }
 
-    document.getElementById("addContentButton").addEventListener("click", addNewContentDiv);
 
     document.getElementById("saveButton").addEventListener("click", saveNote);
     let contentDivs = document.getElementsByClassName("noteContent");
     for (let i = 0; i < contentDivs.length; i++) {
         contentDivs[i].addEventListener("blur", saveNote);
-        //contentDivs[i].addEventListener("keydown", function (event) {
-        //    if (event.key === "Enter") {
-        //        event.preventDefault();
-        //        addNewContentDiv();
-        //    }
-        //});
     }
 </script>
 </body>
