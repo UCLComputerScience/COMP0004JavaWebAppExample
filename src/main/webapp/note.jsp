@@ -50,14 +50,23 @@
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
         newContentDiv.addEventListener("blur", saveNote);
-        document.getElementById("noteContents").appendChild(newContentDiv);
+        let newButton = document.createElement("button");
+        newButton.className = "delete-button";
+        newButton.innerText = "Delete";
+        newButton.onclick = function () {
+            deleteContent(this);
+        };
+        let newContentButtonDiv = document.createElement("div");
+        newContentButtonDiv.appendChild(newContentDiv);
+        newContentButtonDiv.appendChild(newButton);
+        document.getElementById("noteContents").appendChild(newContentButtonDiv);
     }
 
     function deleteContent(button) {
         let contentDiv = button.parentElement;
         contentDiv.innerHTML = "";
         saveNote();
-        location.reload();
+        //location.reload();
     }
 
 
