@@ -18,13 +18,14 @@
         <div>
             <div contenteditable="true" class="noteContent" data-content-type="<%=content.getContentType()%>">
                 <% if ("text".equals(content.getContentType())) { %>
-                    <%=content.getContent()%>
+                <%=content.getContent()%>
                 <% } else if ("image".equals(content.getContentType())) { %>
-                    <img src="<%=content.getContent()%>" alt="Image content">
+                <img src="<%=content.getContent()%>" alt="Image content">
                 <% } else if ("url".equals(content.getContentType())) { %>
-                    <a href="<%=content.getContent()%>"><%=content.getContent()%></a>
+                <a href="<%=content.getContent()%>"><%=content.getContent()%>
+                </a>
                 <% } else if ("html".equals(content.getContentType())) { %>
-                    <%=content.getContent()%>
+                <%=content.getContent()%>
                 <% } %>
             </div>
             <button class="delete-button" onclick="deleteContent(this)">Delete</button>
@@ -49,13 +50,22 @@
         for (let i = 0; i < contentDivs.length; i++) {
             let contentType = contentDivs[i].getAttribute("data-content-type");
             let contentValue;
-            if (contentType === "text" || contentType === "html") {
+            if (contentType === "text") {
                 contentValue = contentDivs[i].innerText;
+            } else if (contentType === "html") {
+                contentValue = contentDivs[i].innerHTML;
             } else if (contentType === "image") {
-                contentValue = contentDivs[i].querySelector("img").src;
+                const match = contentDivs[i].innerHTML.match(/src="([^"]+)"/);
+                contentValue = match ? match[1] : "";
             } else if (contentType === "url") {
-                contentValue = contentDivs[i].querySelector("a").href;
+                const match = contentDivs[i].innerHTML.match(/href="([^"]+)">/);
+                contentValue = match ? match[1] : "";
             }
+            // Ignore empty content and empty strings
+            if (!contentValue || contentValue.trim() === "") {
+                continue;
+            }
+            // Append content type and value to formData
             formData += "&noteContent=" + encodeURIComponent(contentValue) + "&contentType=" + encodeURIComponent(contentType);
         }
 
