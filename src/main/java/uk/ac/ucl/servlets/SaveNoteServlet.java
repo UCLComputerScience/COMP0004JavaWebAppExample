@@ -21,17 +21,20 @@ public class SaveNoteServlet extends HttpServlet {
         String noteId = request.getParameter("noteId");
         String noteTitle = request.getParameter("noteTitle");
         String[] noteContents = request.getParameterValues("noteContent");
+        String[] contentTypes = request.getParameterValues("contentType");
 
         Note note = noteService.getNoteById(noteId);
         note.setTitle(noteTitle);
 
         List<NoteContent> contents = new ArrayList<>();
-        if (noteContents != null) {
-            for (String content : noteContents) {
-                if (content != null && !content.trim().isEmpty()) {
+        if (noteContents != null && contentTypes != null && noteContents.length == contentTypes.length) {
+            for (int i = 0; i < noteContents.length; i++) {
+                String content = noteContents[i];
+                String contentType = contentTypes[i];
+                if (content != null && !content.trim().isEmpty() && contentType != null && !contentType.trim().isEmpty()) {
                     String formattedContent = content.replace("\r\n", "<br>")
                             .replace("\n", "<br>");
-                    contents.add(new NoteContent(formattedContent));
+                    contents.add(new NoteContent(formattedContent, contentType));
                 }
             }
         }
