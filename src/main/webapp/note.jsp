@@ -16,14 +16,25 @@
     <div id="noteContents">
         <% for (NoteContent content : note.getContents()) { %>
         <div>
-            <div contenteditable="true" class="noteContent">
-                <%=content.getContent()%>
+            <div contenteditable="true" class="noteContent" data-content-type="<%=content.getContentType()%>">
+                <% if ("text".equals(content.getContentType())) { %>
+                    <%=content.getContent()%>
+                <% } else if ("image".equals(content.getContentType())) { %>
+                    <img src="<%=content.getContent()%>" alt="Image content">
+                <% } else if ("url".equals(content.getContentType())) { %>
+                    <a href="<%=content.getContent()%>"><%=content.getContent()%></a>
+                <% } else if ("html".equals(content.getContentType())) { %>
+                    <%=content.getContent()%>
+                <% } %>
             </div>
             <button class="delete-button" onclick="deleteContent(this)">Delete</button>
         </div>
         <% } %>
     </div>
-    <button id="addContentButton" onclick="addNewContentDiv()">Add Content</button>
+    <button id="addTextButton" onclick="addNewContentDiv('text')">Add Text</button>
+    <button id="addImageButton" onclick="addNewContentDiv('image')">Add Image</button>
+    <button id="addUrlButton" onclick="addNewContentDiv('url')">Add URL</button>
+    <button id="addHtmlButton" onclick="addNewContentDiv('html')">Add HTML</button>
     <button id="saveButton">Save</button>
 </div>
 <jsp:include page="/footer.jsp"/>
@@ -36,7 +47,16 @@
         let formData = "noteId=" + encodeURIComponent(noteId) + "&noteTitle=" + encodeURIComponent(noteTitle);
 
         for (let i = 0; i < contentDivs.length; i++) {
-            formData += "&noteContent=" + encodeURIComponent(contentDivs[i].innerText);
+            let contentType = contentDivs[i].getAttribute("data-content-type");
+            let contentValue;
+            if (contentType === "text" || contentType === "html") {
+                contentValue = contentDivs[i].innerText;
+            } else if (contentType === "image") {
+                contentValue = contentDivs[i].querySelector("img").src;
+            } else if (contentType === "url") {
+                contentValue = contentDivs[i].querySelector("a").href;
+            }
+            formData += "&noteContent=" + encodeURIComponent(contentValue) + "&contentType=" + encodeURIComponent(contentType);
         }
 
         let xhr = new XMLHttpRequest();
@@ -45,11 +65,24 @@
         xhr.send(formData);
     }
 
-    function addNewContentDiv() {
+    function addNewContentDiv(contentType) {
         let newContentDiv = document.createElement("div");
         newContentDiv.contentEditable = "true";
         newContentDiv.className = "noteContent";
+        newContentDiv.setAttribute("data-content-type", contentType);
         newContentDiv.addEventListener("blur", saveNote);
+
+        if (contentType === "image") {
+            let img = document.createElement("img");
+            img.src = "";
+            newContentDiv.appendChild(img);
+        } else if (contentType === "url") {
+            let a = document.createElement("a");
+            a.href = "";
+            a.innerText = "New URL";
+            newContentDiv.appendChild(a);
+        }
+
         let newButton = document.createElement("button");
         newButton.className = "delete-button";
         newButton.innerText = "Delete";
@@ -66,9 +99,7 @@
         let contentDiv = button.parentElement;
         contentDiv.innerHTML = "";
         saveNote();
-        //location.reload();
     }
-
 
     document.getElementById("saveButton").addEventListener("click", saveNote);
     let contentDivs = document.getElementsByClassName("noteContent");
