@@ -65,7 +65,10 @@
             } else if (contentType === "html") {
                 contentValue = contentDivs[i].innerHTML;
             } else if (contentType === "image") {
-                const match = contentDivs[i].innerHTML.match(/src=\/image\?="([^"]+)"/);
+                console.log(contentDivs[i].innerHTML);
+                const regex = /src="\/image\?file=([^"]+)"/;
+                const match = contentDivs[i].innerHTML.match(regex);
+                console.log(match);
                 contentValue = match ? match[1] : "";
             } else if (contentType === "url") {
                 const match = contentDivs[i].innerHTML.match(/href="([^"]+)">/);
