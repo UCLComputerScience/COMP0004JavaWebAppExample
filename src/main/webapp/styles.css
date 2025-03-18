@@ -188,6 +188,13 @@ nav a:hover {
     border-left: 3px solid var(--primary);
 }
 
+/* Images */
+img {
+    max-width: 900px;
+    height: auto;
+    border-radius: 8px;
+}
+
 /* Search results */
 .search-result li {
     margin-bottom: 1.5rem;
