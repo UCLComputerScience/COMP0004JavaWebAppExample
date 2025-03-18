@@ -20,7 +20,7 @@ public class NoteFactory {
     }
 
     private String generateId() {
-        int id = 1;
+        long id = System.currentTimeMillis();
         while (noteIndex.contains(String.valueOf(id))) {
             id++;
         }

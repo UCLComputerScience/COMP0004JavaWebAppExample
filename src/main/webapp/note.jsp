@@ -14,7 +14,9 @@
     <div contenteditable="true" id="noteTitle" class="noteTitle"><%=note.getTitle()%>
     </div>
     <div id="noteContents">
-        <% for (NoteContent content : note.getContents()) { %>
+        <% int contentSize = note.getContents().size();%>
+        <% for (int i = 0; i < contentSize; i++) { %>
+        <% NoteContent content = note.getContents().get(i); %>
         <div>
             <div contenteditable="true" class="noteContent" data-content-type="<%=content.getContentType()%>">
                 <% if ("text".equals(content.getContentType())) { %>
@@ -29,7 +31,11 @@
                 <%=content.getContent()%>
                 <% } %>
             </div>
-            <button class="delete-button" onclick="deleteContent(this)">Delete</button>
+            <form action="deleteNoteContent.html" method="post">
+                <input type="hidden" name="noteId" value="<%=note.getId()%>">
+                <input type="hidden" name="contentIndex" value="<%=i%>">
+                <button type="submit" class="delete-button">Delete</button>
+            </form>
         </div>
         <% } %>
     </div>
