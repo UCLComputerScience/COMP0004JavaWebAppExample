@@ -42,6 +42,6 @@ public class SaveNoteServlet extends HttpServlet {
 
         noteService.updateNote(note);
 
-        response.sendRedirect("noteList.html");
+        response.sendRedirect("note.html?noteId=" + noteId);
     }
 }

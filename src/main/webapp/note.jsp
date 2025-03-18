@@ -18,9 +18,10 @@
         <div>
             <div contenteditable="true" class="noteContent" data-content-type="<%=content.getContentType()%>">
                 <% if ("text".equals(content.getContentType())) { %>
-                <%=content.getContent()%>
+                <p><%=content.getContent()%>
+                </p>
                 <% } else if ("image".equals(content.getContentType())) { %>
-                <img src="<%=content.getContent()%>" alt="Image content">
+                <img src="${pageContext.request.contextPath}/image?file=<%=content.getContent()%>" alt="Image content">
                 <% } else if ("url".equals(content.getContentType())) { %>
                 <a href="<%=content.getContent()%>"><%=content.getContent()%>
                 </a>
@@ -32,13 +33,22 @@
         </div>
         <% } %>
     </div>
+    <!-- Image Upload form (hidden) -->
+    <form id="imageUploadForm" action="uploadImage.html" method="post" enctype="multipart/form-data"
+          style="display:none;">
+        <input type="file" name="imageFile" id="imageFile">
+        <input type="hidden" name="noteId" value="<%=note.getId()%>">
+        <input type="submit" value="Upload Image">
+    </form>
     <button id="addTextButton" onclick="addNewContentDiv('text')">Add Text</button>
-    <button id="addImageButton" onclick="addNewContentDiv('image')">Add Image</button>
+    <button id="addImageButton" onclick="showImageUploadForm()">Add Image</button>
     <button id="addUrlButton" onclick="addNewContentDiv('url')">Add URL</button>
     <button id="addHtmlButton" onclick="addNewContentDiv('html')">Add HTML</button>
     <button id="saveButton">Save</button>
 </div>
 <jsp:include page="/footer.jsp"/>
+
+
 <script>
     function saveNote() {
         let noteId = "<%=note.getId()%>";
@@ -55,7 +65,7 @@
             } else if (contentType === "html") {
                 contentValue = contentDivs[i].innerHTML;
             } else if (contentType === "image") {
-                const match = contentDivs[i].innerHTML.match(/src="([^"]+)"/);
+                const match = contentDivs[i].innerHTML.match(/src=\/image\?="([^"]+)"/);
                 contentValue = match ? match[1] : "";
             } else if (contentType === "url") {
                 const match = contentDivs[i].innerHTML.match(/href="([^"]+)">/);
@@ -109,6 +119,11 @@
         let contentDiv = button.parentElement;
         contentDiv.innerHTML = "";
         saveNote();
+    }
+
+    function showImageUploadForm() {
+        let form = document.getElementById("imageUploadForm");
+        form.style.display = "block";
     }
 
     document.getElementById("saveButton").addEventListener("click", saveNote);

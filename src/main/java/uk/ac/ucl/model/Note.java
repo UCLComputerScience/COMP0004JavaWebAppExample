@@ -48,4 +48,16 @@ public class Note {
         return contents;
     }
 
+    public void appendImage(String imageSrc) {
+        NoteContent imageContent = new NoteContent(imageSrc, "image");
+        contents.add(imageContent);
+    }
+
+    public void deleteAllContents() {
+        for (NoteContent content : contents) {
+            content.deleteContent();
+        }
+        contents.clear();
+    }
+
 }

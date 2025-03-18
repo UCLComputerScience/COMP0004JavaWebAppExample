@@ -3,6 +3,8 @@ package uk.ac.ucl.model;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.File;
+
 public class NoteContent {
     private String content;
     private String contentType;
@@ -27,5 +29,15 @@ public class NoteContent {
 
     public String getContentType() {
         return contentType;
+    }
+
+    public void deleteContent() {
+        if (contentType.equals("image")) {
+            File file = new File(content);
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+        this.content = null;
     }
 }
