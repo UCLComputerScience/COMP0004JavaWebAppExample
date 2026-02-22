@@ -10,16 +10,29 @@
 <jsp:include page="/header.jsp"/>
 <div class="main">
   <h2>Patients:</h2>
+  <%
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    if (errorMessage != null)
+    {
+  %>
+      <p style="color: red;"><%= errorMessage %></p>
+  <%
+    }
+  %>
   <ul>
     <%
       List<String> patients = (List<String>) request.getAttribute("patientNames");
-      for (String patient : patients)
+      if (patients != null)
       {
-        String href = "dummypage.html";
+        for (String patient : patients)
+        {
+          String href = "dummypage.html";
     %>
     <li><a href="<%=href%>"><%=patient%></a>
     </li>
-    <% } %>
+    <%  }
+      }
+    %>
   </ul>
 </div>
 <jsp:include page="/footer.jsp"/>

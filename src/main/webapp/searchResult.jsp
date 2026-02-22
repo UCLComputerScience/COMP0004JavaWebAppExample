@@ -11,8 +11,15 @@
 <div class="main">
   <h1>Search Result</h1>
   <%
+    String errorMessage = (String) request.getAttribute("errorMessage");
+    if (errorMessage != null)
+    {
+  %>
+      <p style="color: red;"><%= errorMessage %></p>
+  <%
+    }
     List<String> patients = (List<String>) request.getAttribute("result");
-    if (patients.size() !=0)
+    if (patients != null && patients.size() != 0)
     {
     %>
     <ul>
@@ -22,7 +29,7 @@
       %>
       <li><%=patient%></li>
      <% }
-    } else
+    } else if (errorMessage == null)
     {%>
       <p>Nothing found</p>
   <%}%>
