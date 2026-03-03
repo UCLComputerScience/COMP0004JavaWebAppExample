@@ -11,24 +11,20 @@ package uk.ac.ucl.main;
 
 // Used for handling I/O failures (e.g., creating the log file).
 import java.io.IOException;
-// File utilities used to validate that directories exist.
 import java.nio.file.Files;
-// Represents filesystem paths in a platform-independent way.
 import java.nio.file.Path;
-// Builds Path objects from Strings.
 import java.nio.file.Paths;
-// Java's built-in logging API.
-import java.util.logging.*;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
-// Tomcat API: represents the web application context (similar to a deployed webapp in Tomcat).
 import org.apache.catalina.Context;
-// Tomcat API: abstraction for where Tomcat loads resources (classes, static files) from.
+import org.apache.catalina.LifecycleException;
 import org.apache.catalina.WebResourceRoot;
-// Tomcat API: the main entry point for embedded Tomcat.
 import org.apache.catalina.startup.Tomcat;
-// Tomcat API: resource set backed by a directory on disk.
 import org.apache.catalina.webresources.DirResourceSet;
-// Tomcat API: default WebResourceRoot implementation.
 import org.apache.catalina.webresources.StandardRoot;
 
 // This class contains only static helper methods and a main() entry point.
@@ -91,7 +87,7 @@ public class Main
           tomcat.destroy();
           logger.info("Tomcat has shut down normally.");
         }
-      } catch (Exception e)
+      } catch (LifecycleException e)
       {
         logger.log(Level.SEVERE, "Error shutting down Tomcat", e);
       }
@@ -196,7 +192,7 @@ public class Main
 
       // Start Tomcat (bind port, start threads, initialise the web application).
       tomcat.start();
-      logger.info("Server started successfully on port " + port);
+      logger.info(() -> "Server started successfully on port " + port);
       // Block the main thread so the process stays alive.
       // Tomcat runs request handling on its own threads.
       tomcat.getServer().await();
@@ -207,7 +203,7 @@ public class Main
       logger.log(Level.SEVERE, "Configuration error", e);
     }
     // Catch-all for unexpected startup errors. In production code you might handle specific exceptions.
-    catch (Exception e)
+    catch (LifecycleException e)
     {
       logger.log(Level.SEVERE, "Error occurred while starting the server", e);
     }

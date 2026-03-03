@@ -210,3 +210,17 @@ bh_unicode_properties.cache
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
 
+### VS Code
+.vscode/
+.history/
+*.code-workspace
+
+### Maven
+target/
+
+### Gradle (if applicable)
+.gradle/
+build/
+
+### Local Tomcat
+tomcat.*/
