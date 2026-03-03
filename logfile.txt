@@ -1,8 +1,0 @@
-Mar 03, 2026 7:25:37 PM uk.ac.ucl.main.Main main
-INFO: Server started successfully on port 8080
-Mar 03, 2026 7:37:07 pm uk.ac.ucl.main.Main main
-Server started successfully on port 8080
-Mar 03, 2026 7:37:32 pm uk.ac.ucl.main.Main main
-Server started successfully on port 8080
-Mar 03, 2026 7:38:18 pm uk.ac.ucl.main.Main main
-Server started successfully on port 8080
