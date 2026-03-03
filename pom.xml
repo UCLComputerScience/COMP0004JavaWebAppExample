@@ -62,6 +62,8 @@
             <argument>${main.class}</argument>
           </arguments>
           <workingDirectory>${project.basedir}</workingDirectory>
+          <appendOutput>true</appendOutput>
+          <output>${project.build.directory}/exec.log</output>
         </configuration>
       </plugin>
     </plugins>
